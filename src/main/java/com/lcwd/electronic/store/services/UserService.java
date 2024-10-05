@@ -20,6 +20,7 @@ public interface UserService {
 
     public UserDto findByEmailAndPassword(String email,String password);
 
+    public void deleteUser(String id);
 
 
 

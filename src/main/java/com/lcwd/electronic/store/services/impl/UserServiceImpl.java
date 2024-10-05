@@ -5,10 +5,11 @@ import com.lcwd.electronic.store.entities.User;
 import com.lcwd.electronic.store.repositories.UserRepository;
 import com.lcwd.electronic.store.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -60,17 +61,32 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserByEmail(String email) {
-        return null;
+        User user = userRepo.findByEmail(email);
+
+        return entityToDto(user);
     }
 
     @Override
-    public List<UserDto> searchUse(String keyword) {
-        return null;
+    public List<UserDto> searchUse(String keyword)
+    {
+        List<User> users = userRepo.findByNameContaining(keyword);
+
+        List<UserDto> userdtos = users.stream().map(user -> entityToDto(user)).collect(Collectors.toList());
+        return userdtos;
     }
 
     @Override
     public UserDto findByEmailAndPassword(String email, String password) {
-        return null;
+        User user = userRepo.findByEmailAndPassword(email,password);
+
+
+        return entityToDto(user);
+    }
+
+    @Override
+    public void deleteUser(String id)
+    {
+        userRepo.deleteById(id);
     }
 
 
