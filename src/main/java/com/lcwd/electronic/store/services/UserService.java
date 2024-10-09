@@ -10,7 +10,7 @@ public interface UserService {
 
     public UserDto updateUser(UserDto userdto,String userId);
 
-    public List<UserDto> getAllUser();
+    public List<UserDto> getAllUser(int pageNumber,int pageSize);
 
     public UserDto getUserById(String userId);
 

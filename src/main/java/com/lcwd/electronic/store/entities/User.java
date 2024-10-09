@@ -2,11 +2,9 @@ package com.lcwd.electronic.store.entities;
 
 //import jakarta.persistence.Column;
 import lombok.*;
+import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -19,6 +17,7 @@ import javax.persistence.Table;
 public class User {
 
     @Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="user_id")
     private String userId;
 
@@ -39,6 +38,11 @@ public class User {
 
     @Column(name="user_image_name")
     private String imageName;
+
+    @PrePersist
+    protected void onCreate() {
+        this.userId = UUID.randomUUID().toString();
+    }
 
 
 }

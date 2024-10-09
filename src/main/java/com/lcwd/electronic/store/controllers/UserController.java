@@ -46,14 +46,17 @@ public class UserController {
 
     //Get All User
     @GetMapping
-    public ResponseEntity<List<UserDto>> getAllUser() {
+    public ResponseEntity<List<UserDto>> getAllUser(
+            @RequestParam(value= "pageNumber",defaultValue = "0",required = false) int pageNumber ,
+            @RequestParam(value="pageSize",defaultValue = "10",required = false) int pageSize
+    ) {
 
-        List<UserDto> users = userservice.getAllUser();
+        List<UserDto> users = userservice.getAllUser(pageNumber,pageSize);
         return new ResponseEntity<>(users,HttpStatus.OK);
     }
 
     // Get user by ID
-    @GetMapping("/{id}")
+    @GetMapping("userId/{userId}")
      public ResponseEntity<UserDto> getUserById( @PathVariable String userId)
      {
          UserDto dto = userservice.getUserById(userId);
@@ -62,7 +65,7 @@ public class UserController {
      }
 
 
-   @GetMapping("/{email}")
+   @GetMapping("email/{email}")
    public ResponseEntity<UserDto> getUserByEmail( @PathVariable String email)
    {
        UserDto dto = userservice.getUserByEmail(email);
@@ -72,7 +75,7 @@ public class UserController {
 
 
     //search user
-    @GetMapping("/{keyword}")
+    @GetMapping("keyword/{keyword}")
     public ResponseEntity<List<UserDto>> searchUse(@PathVariable String keyword){
         List<UserDto> users = userservice.searchUse(keyword);
 
@@ -81,7 +84,7 @@ public class UserController {
     }
 
     //find by email and password
-    @GetMapping("emailandpass/{email}/{password}")
+    @GetMapping("emailandpassword/{email}/{password}")
     public ResponseEntity<UserDto> findByEmailAndPassword(@PathVariable String email,@PathVariable String password){
         UserDto user = userservice.findByEmailAndPassword(email, password);
         return new ResponseEntity<>(user,HttpStatus.OK);
