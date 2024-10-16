@@ -1,14 +1,20 @@
 package com.lcwd.electronic.store.controllers;
 
 import com.lcwd.electronic.store.dtos.ApiResponseMessage;
+import com.lcwd.electronic.store.dtos.ImageResponse;
+import com.lcwd.electronic.store.dtos.PageableResponse;
 import com.lcwd.electronic.store.dtos.UserDto;
+import com.lcwd.electronic.store.services.FileService;
 import com.lcwd.electronic.store.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
+//import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -17,6 +23,14 @@ public class UserController {
 
     @Autowired
     private UserService userservice;
+
+    @Autowired
+    private FileService fileService;
+
+    @Value("user.profile.image.path")
+    private String imageUploadPath;
+
+
 
     //create user
     @PostMapping
@@ -46,13 +60,15 @@ public class UserController {
 
     //Get All User
     @GetMapping
-    public ResponseEntity<List<UserDto>> getAllUser(
+    public ResponseEntity<PageableResponse<UserDto>> getAllUser(
             @RequestParam(value= "pageNumber",defaultValue = "0",required = false) int pageNumber ,
-            @RequestParam(value="pageSize",defaultValue = "10",required = false) int pageSize
+            @RequestParam(value="pageSize",defaultValue = "10",required = false) int pageSize,
+            @RequestParam(value="sortBy",defaultValue = "name",required = false) String sortBy,
+            @RequestParam(value="sortDir",defaultValue = "asc",required = false) String sortDir
     ) {
 
-        List<UserDto> users = userservice.getAllUser(pageNumber,pageSize);
-        return new ResponseEntity<>(users,HttpStatus.OK);
+        PageableResponse<UserDto> response = userservice.getAllUser(pageNumber,pageSize,sortBy,sortDir);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
     // Get user by ID
@@ -101,6 +117,28 @@ public class UserController {
                 .status(HttpStatus.OK).build();
         return new ResponseEntity<>(message,HttpStatus.OK);
     }
+
+
+    //update user image
+    @PostMapping("/image/{userid}")
+    public ResponseEntity<ImageResponse> uploadUserImage(
+            @RequestParam("userImage")MultipartFile image,
+            @PathVariable String userid
+    )
+    {
+
+        String imageName = fileService.uploadImage(image,imageUploadPath);
+
+        UserDto user = userservice.getUserById(userid);
+        user.setImageName(imageName);
+        userservice.updateUser(user,userid);
+
+
+        ImageResponse imageResponse = ImageResponse.builder().imageName(imageName).success(true).status(HttpStatus.OK).build();
+        return new ResponseEntity<>(imageResponse,HttpStatus.CREATED);
+    }
+
+    //serve user image
 
 }
 

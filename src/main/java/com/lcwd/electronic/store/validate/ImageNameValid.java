@@ -1,9 +1,10 @@
 package com.lcwd.electronic.store.validate;
 
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 import org.hibernate.annotations.Tables;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
+
 import java.lang.annotation.*;
 
 

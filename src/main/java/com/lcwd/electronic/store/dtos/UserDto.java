@@ -1,12 +1,11 @@
 package com.lcwd.electronic.store.dtos;
 
 import com.lcwd.electronic.store.validate.ImageNameValid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -31,7 +30,7 @@ public class UserDto {
     @Size(min = 4,max = 6,message = "Invalid gender")
     private String gender;
 
-    @NotBlank(message = "Write something about")
+   // @NotBlank(message = "Write something about")
 
     @NotBlank(message = "enter about")
     private String about;

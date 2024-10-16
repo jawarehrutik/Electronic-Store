@@ -1,10 +1,14 @@
 package com.lcwd.electronic.store.entities;
 
 //import jakarta.persistence.Column;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.*;
 import java.util.UUID;
 
-import javax.persistence.*;
+
 
 @Getter
 @Setter
@@ -39,7 +43,7 @@ public class User {
     @Column(name="user_image_name")
     private String imageName;
 
-    @PrePersist
+    @jakarta.persistence.PrePersist
     protected void onCreate() {
         this.userId = UUID.randomUUID().toString();
     }

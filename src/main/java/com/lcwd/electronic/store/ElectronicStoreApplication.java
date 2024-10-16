@@ -1,6 +1,6 @@
 package com.lcwd.electronic.store;
 
-import com.lcwd.electronic.store.entities.User;
+//import com.lcwd.electronic.store.entities.User;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
