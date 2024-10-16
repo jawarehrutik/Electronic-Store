@@ -23,6 +23,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepo;
 
+    @Autowired
     private ModelMapper mapper;
     @Override
     public UserDto createUser(UserDto userdto) {
