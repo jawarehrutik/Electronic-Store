@@ -29,7 +29,7 @@ public class FileServiceImpl implements FileService {
         String fullPathWithFileName = path + fileNameWithExtension;
         logger.info("full image path {}",fullPathWithFileName);
 
-        if(extension.equalsIgnoreCase("png") || extension.equalsIgnoreCase("jpeg")||extension.equalsIgnoreCase("jpg")){
+        if(extension.equalsIgnoreCase(".png") || extension.equalsIgnoreCase(".jpeg")||extension.equalsIgnoreCase(".jpg")){
             File folder = new File(path);
             if(!folder.exists())
             {
@@ -52,5 +52,19 @@ public class FileServiceImpl implements FileService {
         String fullpath = path+File.separator+name;
         InputStream inputStream = new FileInputStream(fullpath);
         return inputStream;
+    }
+
+    //delete image from path
+    @Override
+    public void deleteImage(String path, String imageName) {
+
+        File file = new File(path + "/" + imageName);
+        if (file.exists()) {
+            boolean deleted = file.delete();
+            if (!deleted) {
+                logger.warn("Image not deleted: {}", imageName);
+            }
+        }
+
     }
 }

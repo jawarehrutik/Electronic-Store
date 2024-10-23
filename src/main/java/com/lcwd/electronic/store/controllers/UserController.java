@@ -118,6 +118,12 @@ public class UserController {
     //Delete
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponseMessage> deleteUser(@PathVariable String id){
+
+        UserDto user = userservice.getUserById(id);
+        if (user != null && user.getImageName() != null) {
+            // Delete the image from storage
+            fileService.deleteImage(imageUploadPath, user.getImageName());
+        }
         userservice.deleteUser(id);
 
         ApiResponseMessage message = ApiResponseMessage.builder()
