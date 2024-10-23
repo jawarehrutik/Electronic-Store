@@ -6,6 +6,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
 
+import java.util.UUID;
+
 @Entity
 @Setter
 @Getter
@@ -27,6 +29,11 @@ public class Category {
 
     @Column(name="category_coverimage")
     private String coverImage;
+
+    @jakarta.persistence.PrePersist
+    protected void onCreate() {
+        this.categoryId = UUID.randomUUID().toString();
+    }
 
 
 }

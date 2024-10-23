@@ -29,7 +29,7 @@ public class FileServiceImpl implements FileService {
         String fullPathWithFileName = path + fileNameWithExtension;
         logger.info("full image path {}",fullPathWithFileName);
 
-        if(extension.equalsIgnoreCase("png") || extension.equalsIgnoreCase("jpeg")||extension.equalsIgnoreCase("jpg")){
+        if(extension.equalsIgnoreCase(".png") || extension.equalsIgnoreCase(".jpeg")||extension.equalsIgnoreCase(".jpg")){
             File folder = new File(path);
             if(!folder.exists())
             {

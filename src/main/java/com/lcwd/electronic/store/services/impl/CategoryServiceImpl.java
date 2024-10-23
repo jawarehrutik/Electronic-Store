@@ -17,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -40,6 +42,7 @@ public class CategoryServiceImpl implements CategoryService {
         category.setDescription(categoryDto.getDescription());
         category.setTitle(categoryDto.getTitle());
         category.setCoverImage(categoryDto.getCoverImage());
+        repo.save(category);
 
         CategoryDto dto = mapper.map(category,CategoryDto.class);
 
@@ -48,6 +51,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void delete(String id) {
+
         repo.deleteById(id);
     }
 
@@ -63,7 +67,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDto getById(String id) {
-        return mapper.map(repo.findById(id),CategoryDto.class);
+    public CategoryDto getById(String id)
+    {
+        Category category = repo.findById(id).orElseThrow(()->new ResourceNotFoundException());
+        return mapper.map(category,CategoryDto.class);
     }
 }
