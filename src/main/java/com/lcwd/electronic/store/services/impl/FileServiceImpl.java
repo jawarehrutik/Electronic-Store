@@ -53,4 +53,18 @@ public class FileServiceImpl implements FileService {
         InputStream inputStream = new FileInputStream(fullpath);
         return inputStream;
     }
+
+    //delete image from path
+    @Override
+    public void deleteImage(String path, String imageName) {
+
+        File file = new File(path + "/" + imageName);
+        if (file.exists()) {
+            boolean deleted = file.delete();
+            if (!deleted) {
+                logger.warn("Image not deleted: {}", imageName);
+            }
+        }
+
+    }
 }

@@ -51,6 +51,11 @@ public class CategoryController {
       @DeleteMapping("/{id}")
       public ResponseEntity<ApiResponseMessage> delete(@PathVariable String id)
       {
+          CategoryDto category = service.getById(id);
+          if (category != null && category.getCoverImage() != null) {
+              // Delete the image from storage
+              fileService.deleteImage(imageUploadPath, category.getCoverImage());
+          }
           service.delete(id);
           ApiResponseMessage message = ApiResponseMessage.builder()
                   .message("User deleted successfully")

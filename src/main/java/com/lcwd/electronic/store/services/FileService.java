@@ -12,4 +12,6 @@ public interface FileService {
 
     public InputStream getResource(String path,String name) throws FileNotFoundException;
 
+    public void deleteImage(String path, String imageName);
+
 }
