@@ -4,10 +4,12 @@ import ch.qos.logback.core.net.SyslogOutputStream;
 import com.lcwd.electronic.store.dtos.PageableResponse;
 import com.lcwd.electronic.store.dtos.ProductDto;
 import com.lcwd.electronic.store.dtos.UserDto;
+import com.lcwd.electronic.store.entities.Category;
 import com.lcwd.electronic.store.entities.Product;
 import com.lcwd.electronic.store.entities.User;
 import com.lcwd.electronic.store.exceptions.ResourceNotFoundException;
 import com.lcwd.electronic.store.helper.Helper;
+import com.lcwd.electronic.store.repositories.CategoryRepository;
 import com.lcwd.electronic.store.repositories.ProductRepository;
 import com.lcwd.electronic.store.services.ProductService;
 import org.modelmapper.ModelMapper;
@@ -26,6 +28,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productrepo;
+
+    @Autowired
+    private CategoryRepository categoryrepo;
     @Autowired
     private ModelMapper mapper;
 
@@ -100,6 +105,22 @@ public class ProductServiceImpl implements ProductService {
         PageableResponse<ProductDto> response= Helper.getPageableResponse(page,ProductDto.class);
         return response;
     }
+
+    //create product with category
+    @Override
+    public ProductDto createProductWithCategory(ProductDto dto, String categoryId) {
+
+        Category category = categoryrepo.findById(categoryId).orElseThrow(()->new ResourceNotFoundException("category not found"));
+
+        Product product = dtoToEntity(dto);
+
+        product.setCategory(category);
+
+        Product saveProduct =  productrepo.save(product);
+        ProductDto newProduct = entityToDto(saveProduct);
+        return newProduct;
+    }
+
 
     private Product dtoToEntity(ProductDto productDto)
     {

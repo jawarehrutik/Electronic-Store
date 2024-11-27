@@ -3,6 +3,7 @@ package com.lcwd.electronic.store.controllers;
 import com.lcwd.electronic.store.dtos.*;
 import com.lcwd.electronic.store.services.CategoryService;
 import com.lcwd.electronic.store.services.FileService;
+import com.lcwd.electronic.store.services.ProductService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -24,6 +26,8 @@ public class CategoryController {
     @Autowired
     private CategoryService service;
 
+    @Autowired
+    private ProductService productService;
     private Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
@@ -116,5 +120,16 @@ public class CategoryController {
         StreamUtils.copy(resource,response.getOutputStream());
 
     }
+
+    //create product with category
+    @PostMapping("/{categoryId}/products")
+    public ResponseEntity<ProductDto> createProductWithCategory(
+            @PathVariable String categoryId,
+             @RequestBody ProductDto ProductDto)
+    {
+        ProductDto dto=productService.createProductWithCategory(ProductDto,categoryId);
+        return new ResponseEntity<>(dto,HttpStatus.CREATED);
+    }
+
 
 }

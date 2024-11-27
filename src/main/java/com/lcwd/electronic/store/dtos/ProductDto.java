@@ -1,5 +1,6 @@
 package com.lcwd.electronic.store.dtos;
 
+import com.lcwd.electronic.store.entities.Category;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import lombok.*;
@@ -32,6 +33,8 @@ public class ProductDto {
     private boolean stock;
 
     private String productImageName;
+
+    private CategoryDto category;
 
     public boolean getLive() {
         return live;
