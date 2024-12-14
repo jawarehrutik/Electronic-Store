@@ -106,7 +106,7 @@ public class ProductServiceImpl implements ProductService {
         return response;
     }
 
-    //create product with category
+    //create product with category (used in category controller)
     @Override
     public ProductDto createProductWithCategory(ProductDto dto, String categoryId) {
 
@@ -119,6 +119,19 @@ public class ProductServiceImpl implements ProductService {
         Product saveProduct =  productrepo.save(product);
         ProductDto newProduct = entityToDto(saveProduct);
         return newProduct;
+    }
+
+    //update category of product (used in category controller)
+    @Override
+    public ProductDto updateCategory(String productId, String categoryId) {
+
+       Product product = productrepo.findById(productId).orElseThrow(()->new ResourceNotFoundException("Product Not found"));
+       Category category = categoryrepo.findById(categoryId).orElseThrow(()->new ResourceNotFoundException("categry not Found"));
+       product.setCategory(category);
+
+       Product savedProduct = productrepo.save(product);
+
+        return entityToDto(savedProduct);
     }
 
 

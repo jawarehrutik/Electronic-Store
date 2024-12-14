@@ -44,6 +44,7 @@ public class Product {
         @jakarta.persistence.PrePersist
         protected void onCreate() {
                 this.productId = UUID.randomUUID().toString();
+                this.addedData = new Date();
         }
 
 }

@@ -76,7 +76,6 @@ public class ProductController {
         ProductDto dto = service.getSingleProduct(productId);
         return new ResponseEntity<>(dto,HttpStatus.OK);
 
-
     }
 
 //    //get all

@@ -108,6 +108,7 @@ public class CategoryController {
           return new ResponseEntity<>(imageResponse,HttpStatus.CREATED);
       }
 
+      //serve image
     @GetMapping("/image/{id}")
     public void serveUserImage(@PathVariable String id, HttpServletResponse response) throws IOException {
         CategoryDto category = service.getById(id);
@@ -130,6 +131,16 @@ public class CategoryController {
         ProductDto dto=productService.createProductWithCategory(ProductDto,categoryId);
         return new ResponseEntity<>(dto,HttpStatus.CREATED);
     }
+
+    //update category of product
+    @PutMapping("/{categoryId}/product/{productId}")
+    public ResponseEntity<ProductDto> updateCategory(@PathVariable String categoryId,@PathVariable String productId ){
+
+        ProductDto dto = productService.updateCategory(productId,categoryId);
+
+        return new ResponseEntity<>(dto,HttpStatus.OK);
+    }
+
 
 
 }
